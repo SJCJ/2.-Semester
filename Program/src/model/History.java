@@ -2,12 +2,14 @@ package model;
 
 import java.util.ArrayList;
 
-public class Bon
+public class History
 {
-	private ArrayList<Item> items;
+	private final ArrayList<Item> items;
 	
-	public Bon()
+	public History()
 	{
 		items = new ArrayList<Item>();
 	}
+	
+	
 }
