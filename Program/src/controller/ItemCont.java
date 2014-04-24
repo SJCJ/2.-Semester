@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -12,7 +13,7 @@ public class ItemCont
 	public static DefaultTableModel buildTableModel(ResultSet rs)
 	        throws SQLException {
 
-	    ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
+	    ResultSetMetaData metaData = rs.getMetaData();
 
 	    // names of columns
 	    Vector<String> columnNames = new Vector<String>();
