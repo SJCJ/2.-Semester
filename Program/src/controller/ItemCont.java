@@ -10,6 +10,10 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class ItemCont
 {
+	public ItemCont()
+	{
+		
+	}
 	// lav om til at parse til ArrayList.
 	public static DefaultTableModel buildTableModel(ResultSet rs)
 	        throws SQLException {

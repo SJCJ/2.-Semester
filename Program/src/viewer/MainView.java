@@ -14,11 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-public class MainView
+public class MainView extends AbstractTableModel
 {
 	public static void main(String[] args)
 	{
@@ -126,5 +127,26 @@ public class MainView
 
 	    return new DefaultTableModel(data, columnNames);
 
+	}
+
+	@Override
+	public int getColumnCount()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRowCount()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getValueAt(int arg0, int arg1)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
