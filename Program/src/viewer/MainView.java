@@ -34,10 +34,10 @@ public class MainView extends AbstractTableModel
 	private final JPanel panel = new JPanel();
 	private final JTabbedPane jtp = new JTabbedPane();
 	private final JFrame frame = new JFrame("Test");
-	private final JTable table_1;
 	
 	
-	public MainView(JTable table)
+	
+	public MainView(JTable table, final JTable table2)
 	{
 		frame.setSize(400,600);
 		frame.getContentPane().setLayout(null);
@@ -69,8 +69,12 @@ public class MainView extends AbstractTableModel
 					tabbedPane.setSelectedIndex(1);
 					int selectedRowIndex = table.getSelectedRow();
 					int selectedColumnIndex = table.getSelectedColumn();
-					Object selectedObject = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+					String selectedObject = (String) table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
 					
+					int i = QueryMethods.getOfferInt(selectedObject);
+					System.out.println(i);
+					QueryMethods.getOffers(selectedObject, table2, i);
+						
 					System.out.println(selectedObject);
 					}
 				}
@@ -97,11 +101,11 @@ public class MainView extends AbstractTableModel
 		JButton btnKb = new JButton("K\u00D8B!");
 		panel_2.add(btnKb, BorderLayout.SOUTH);
 		
-		table_1 = new JTable();
-		table_1.setFillsViewportHeight(true);
-		table_1.setColumnSelectionAllowed(true);
-		table_1.setCellSelectionEnabled(true);
-		panel_2.add(table_1, BorderLayout.CENTER);
+		
+		table2.setFillsViewportHeight(true);
+		table2.setColumnSelectionAllowed(true);
+		table2.setCellSelectionEnabled(true);
+		panel_2.add(table2, BorderLayout.CENTER);
 		
 		JLabel lblHerKanDu = new JLabel("Her kan du se dine Tilbud :)");
 		lblHerKanDu.setHorizontalAlignment(SwingConstants.CENTER);
