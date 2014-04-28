@@ -3,6 +3,9 @@ package viewer;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -19,26 +22,27 @@ import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
+import controller.QueryMethods;
+
 public class MainView extends AbstractTableModel
 {
 	public static void main(String[] args)
 	{
-		new MainView();
+		QueryMethods.startUp();
 	}
 	
 	private final JPanel panel = new JPanel();
 	private final JTabbedPane jtp = new JTabbedPane();
 	private final JFrame frame = new JFrame("Test");
-	private final JTable table;
 	private final JTable table_1;
 	
 	
-	public MainView()
+	public MainView(JTable table)
 	{
 		frame.setSize(400,600);
 		frame.getContentPane().setLayout(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setBounds(10, 11, 364, 539);
 		frame.getContentPane().add(tabbedPane);
@@ -47,8 +51,32 @@ public class MainView extends AbstractTableModel
 		tabbedPane.addTab("Historik", null, panel_1, null);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		table = new JTable();
+		
 		panel_1.add(table, BorderLayout.CENTER);
+		
+		table.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent me)
+			{
+				JTable table =(JTable) me.getSource();
+				Point p = me.getPoint();
+				int row = table.rowAtPoint(p);
+				if (me.getClickCount() == 2)
+				{
+					if(row >= 0)
+					{	
+					tabbedPane.setSelectedIndex(1);
+					int selectedRowIndex = table.getSelectedRow();
+					int selectedColumnIndex = table.getSelectedColumn();
+					Object selectedObject = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+					
+					System.out.println(selectedObject);
+					}
+				}
+			}
+		});
+			
 		
 		JPanel south = new JPanel(new FlowLayout());
 		
