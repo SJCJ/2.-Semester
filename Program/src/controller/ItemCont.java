@@ -8,7 +8,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
-public class ItemCont
+@SuppressWarnings("serial")
+public class ItemCont extends DefaultTableModel
 {
 	public ItemCont()
 	{

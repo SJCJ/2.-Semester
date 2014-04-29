@@ -14,31 +14,29 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
 import controller.QueryMethods;
 
-public class MainView extends AbstractTableModel
+public class MainView
 {
 	public static void main(String[] args)
 	{
 		QueryMethods.startUp();
 	}
-	
-	private final JPanel panel = new JPanel();
-	private final JTabbedPane jtp = new JTabbedPane();
 	private final JFrame frame = new JFrame("Test");
 	
-	
-	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public MainView(JTable table, final JTable table2)
 	{
 		try
@@ -69,8 +67,9 @@ public class MainView extends AbstractTableModel
 		tabbedPane.addTab("Historik", null, panel_1, null);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
+		JScrollPane scp = new JScrollPane(table);
 		
-		panel_1.add(table, BorderLayout.CENTER);
+		panel_1.add(scp, BorderLayout.CENTER);
 		
 		table.addMouseListener(new MouseAdapter()
 		{
@@ -90,10 +89,8 @@ public class MainView extends AbstractTableModel
 					String selectedObject = (String) table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
 					
 					int i = QueryMethods.getOfferInt(selectedObject);
-					System.out.println(i);
 					QueryMethods.getOffers(selectedObject, table2, i);
 						
-					System.out.println(selectedObject);
 					}
 				}
 			}
@@ -119,11 +116,11 @@ public class MainView extends AbstractTableModel
 		JButton btnKb = new JButton("K\u00D8B!");
 		panel_2.add(btnKb, BorderLayout.SOUTH);
 		
-		
 		table2.setFillsViewportHeight(true);
 		table2.setColumnSelectionAllowed(true);
 		table2.setCellSelectionEnabled(true);
-		panel_2.add(table2, BorderLayout.CENTER);
+		JScrollPane scp2 = new JScrollPane(table2);
+		panel_2.add(scp2, BorderLayout.CENTER);
 		
 		JLabel lblHerKanDu = new JLabel("Her kan du se dine Tilbud :)");
 		lblHerKanDu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -177,26 +174,5 @@ public class MainView extends AbstractTableModel
 
 	    return new DefaultTableModel(data, columnNames);
 
-	}
-
-	@Override
-	public int getColumnCount()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getRowCount()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object getValueAt(int arg0, int arg1)
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
