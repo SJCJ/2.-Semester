@@ -17,7 +17,7 @@ public class QueryMethods
 	private static PreparedStatement pstmt;
 	private static Statement stmt;
     private static String sql;
-    private static String url = "jdbc:mysql://10.111.180.5:3306/mydb";
+    private static String url = "jdbc:mysql://10.111.180.4:3306/mydb";
     private static String user = "testUser";
     private static String password = "kea13";
     private static Connection con = null;

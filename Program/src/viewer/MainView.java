@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,6 +41,22 @@ public class MainView extends AbstractTableModel
 	
 	public MainView(JTable table, final JTable table2)
 	{
+		try
+		{
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
+		    {
+		        if ("Nimbus".equals(info.getName()))
+		        {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		}
+		catch (Exception e)
+		{
+		   
+		}
+		
 		frame.setSize(400,600);
 		frame.getContentPane().setLayout(null);
 		
