@@ -128,7 +128,7 @@ public class QueryMethods
 	
 	public static void startUp()
 	{
-		sql = "select item, description, price from item where item_id <= 5";
+		sql = "select item, description, price from item where item_id <= 6";
 		
 		try
 		{
