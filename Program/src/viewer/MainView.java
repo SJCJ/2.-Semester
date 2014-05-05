@@ -22,9 +22,9 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.jdbc.ResultSetMetaData;
+import model.QueryMethods;
 
-import controller.QueryMethods;
+import com.mysql.jdbc.ResultSetMetaData;
 
 public class MainView
 {

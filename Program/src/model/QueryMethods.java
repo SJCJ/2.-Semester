@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import javax.swing.JTable;
 
+import controller.ItemCont;
 import net.proteanit.sql.DbUtils;
 import viewer.MainView;
 
