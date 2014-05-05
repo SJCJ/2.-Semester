@@ -6,11 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.swing.JLabel;
 import javax.swing.JTable;
 
-import controller.ItemCont;
 import net.proteanit.sql.DbUtils;
 import viewer.MainView;
+import controller.ItemCont;
 
 
 public class QueryMethods 
@@ -35,7 +36,6 @@ public class QueryMethods
     	try
 		{
 			con = DriverManager.getConnection(url, user, password);
-			stmt = con.createStatement();
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -46,7 +46,59 @@ public class QueryMethods
 			e.printStackTrace();
 		}
     }
-    
+    public static int getItemId(String string)
+    {
+    	int id = -1;
+    	sql = "select item_id from item where item ='" + string + "'";
+    	try
+    	{
+    		con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				id = rs.getInt("item_id");
+			}
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println(e);
+    	}
+    	
+    	return id;
+    }
+    public static void getStores(String string, int i, JLabel label1, JLabel label2, JLabel label3)
+    {
+    	String storeName = "";
+    	String openingHours1 = "";
+    	String openingHours2 = "";
+    	String address = "";
+    	String openingHours = "";
+    	
+    	sql = "select store, opening_hours_1, opening_hours_2, address from store, address where item_id = " + i + " and address.address_id = store.Address_address_id;";
+    	try
+    	{
+    		con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+    		while(rs.next())
+    		{
+    		storeName = rs.getString("store");
+    		openingHours1 = rs.getString("opening_hours_1");
+    		openingHours2 = rs.getString("opening_hours_2");
+    		address = rs.getString("address");
+    		
+    		openingHours = openingHours1 + "-" + openingHours2;
+    		}
+    		label1.setText(storeName);
+    		label2.setText(openingHours);
+    		label3.setText(address);
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println(e);
+    	}
+    }
     public static int getOfferInt(String string)
     {
     	String sql1 = "select offer from item where item = '" + string + "'";
@@ -55,7 +107,6 @@ public class QueryMethods
     	try
     	{	
     		con = DriverManager.getConnection(url, user, password);
-			stmt = con.createStatement();
 			pstmt = con.prepareStatement(sql1);
 			rs = pstmt.executeQuery();
 			while(rs.next())

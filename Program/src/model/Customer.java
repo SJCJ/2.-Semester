@@ -2,18 +2,17 @@ package model;
 
 public class Customer
 {
-	private int id;
-	private String fName;
-	private String lName;
-	private String eMail;
-	private String address;
+	private final String name;
+	private final String eMail;
+	private final String city;
 	
-	public Customer(String fName, String lName, String eMail, String address)
+	public Customer(String name, String eMail, String city)
 	{
-		this.fName = fName;
-		this.lName = lName;
+		this.name = name;
 		this.eMail = eMail;
-		this.address = address;
+		this.city = city;
 		//comment
 	}
+	
+	
 }

@@ -4,13 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,14 +20,12 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.table.DefaultTableModel;
 
 import model.QueryMethods;
 
-import com.mysql.jdbc.ResultSetMetaData;
-
 public class MainView
 {
+	private final String[] cities = {"København", "Århus"};
 	public static void main(String[] args)
 	{
 		QueryMethods.startUp();
@@ -85,21 +83,19 @@ public class MainView
 					{	
 					tabbedPane.setSelectedIndex(1);
 					int selectedRowIndex = table.getSelectedRow();
-					int selectedColumnIndex = table.getSelectedColumn();
+					int selectedColumnIndex = 0;
 					String selectedObject = (String) table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
 					
 					int i = QueryMethods.getOfferInt(selectedObject);
 					QueryMethods.getOffers(selectedObject, table2, i);
-						
 					}
 				}
 			}
 		});
 			
-		
 		JPanel south = new JPanel(new FlowLayout());
 		
-		JButton btnNewButton = new JButton("Tilføj bon kode");
+		JButton btnNewButton = new JButton("Tilføj produkt");
 		JButton btnNewButton_1 = new JButton("Slet fra historik");
 		south.add(btnNewButton);
 		south.add(btnNewButton_1);
@@ -114,6 +110,7 @@ public class MainView
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnKb = new JButton("K\u00D8B!");
+		
 		panel_2.add(btnKb, BorderLayout.SOUTH);
 		
 		table2.setFillsViewportHeight(true);
@@ -127,52 +124,45 @@ public class MainView
 		panel_2.add(lblHerKanDu, BorderLayout.NORTH);
 		
 		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Destination", null, panel_3, null);
+		JPanel panel_4 = new JPanel();
+		tabbedPane.addTab("Destination", null, panel_4, null);
+		panel_4.setLayout(new BorderLayout());
 		panel_3.setLayout(new GridLayout(3, 4, 0, 0));
 		
 		JLabel lblButikkensNavn = new JLabel("Butikkens navn: ");
 		panel_3.add(lblButikkensNavn);
 		
-		JLabel lblNewLabel = new JLabel("navn fra database");
+		final JLabel lblNewLabel = new JLabel("navn fra database");
 		panel_3.add(lblNewLabel);
 		
 		JLabel lblbningstider = new JLabel("\u00C5bningstider: ");
 		panel_3.add(lblbningstider);
 		
-		JLabel lblbningstiderFraDatabase = new JLabel("\u00E5bningstider fra database");
+		final JLabel lblbningstiderFraDatabase = new JLabel("\u00E5bningstider fra database");
 		panel_3.add(lblbningstiderFraDatabase);
 		
 		JLabel lblAdresse = new JLabel("Adresse: ");
 		panel_3.add(lblAdresse);
 		
-		JLabel lblAdresseFraDatabase = new JLabel("Adresse fra database");
+		final JLabel lblAdresseFraDatabase = new JLabel("Adresse fra database");
 		panel_3.add(lblAdresseFraDatabase);
+		
+		btnKb.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int selectedRowIndex = table2.getSelectedRow();
+				int selectedColumnIndex = 0;
+				String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+				int i = QueryMethods.getItemId(selectedObject);
+				QueryMethods.getStores(selectedObject, i, lblNewLabel, lblbningstiderFraDatabase, lblAdresseFraDatabase);
+				tabbedPane.setSelectedIndex(2);
+			}
+		});
+		JComboBox comboBox = new JComboBox(cities);
+		panel_4.add(comboBox, BorderLayout.NORTH);
+		panel_4.add(panel_3);
 		frame.setVisible(true);
-	}
-	
-	public static DefaultTableModel buildTableModel(ResultSet rs)
-	        throws SQLException {
-
-	    ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
-
-	    // names of columns
-	    Vector<String> columnNames = new Vector<String>();
-	    int columnCount = metaData.getColumnCount();
-	    for (int column = 1; column <= columnCount; column++) {
-	        columnNames.add(metaData.getColumnName(column));
-	    }
-
-	    // data of the table
-	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-	    while (rs.next()) {
-	        Vector<Object> vector = new Vector<Object>();
-	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-	            vector.add(rs.getObject(columnIndex));
-	        }
-	        data.add(vector);
-	    }
-
-	    return new DefaultTableModel(data, columnNames);
-
 	}
 }
