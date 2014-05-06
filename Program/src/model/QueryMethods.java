@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 
 import net.proteanit.sql.DbUtils;
 import viewer.AdminGui;
-import viewer.MainView;
 import controller.ItemCont;
 
 
@@ -221,22 +220,68 @@ public class QueryMethods
     		System.out.println("theres an error here" +e);
     	}
 	}
-	public static void startUp()
+	public static String getItemName(String id)
 	{
-		sql = "select item, description, price from item where item_id <= 6";
-		
+		String itemName ="";
+		sql ="select item from item where item_id =" + id;
 		try
 		{
 			con = DriverManager.getConnection(url, user, password);
-		    stmt = con.createStatement();
-		    rs = stmt.executeQuery(sql);
-		    table = new JTable(ItemCont.buildTableModel(rs));
-		    table2 = new JTable();
-		    new MainView(table, table2);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+    		while(rs.next())
+    		{
+    			itemName = rs.getString("item");
+    		}
+    		
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
+		return itemName;
+		
+	}
+	public static String getItemDesc(String id)
+	{
+		String itemDesc ="";
+		sql ="select item from item where item_id =" + id;
+		try
+		{
+			con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+    		while(rs.next())
+    		{
+    			itemDesc = rs.getString("description");
+    		}
+    		
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return itemDesc;
+	}
+	public static String getItemPrice(String id)
+	{
+		String itemPrice ="";
+		sql ="select item from item where item_id =" + id;
+		try
+		{
+			con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+    		while(rs.next())
+    		{
+    			itemPrice = rs.getString("price");
+    		}
+    		
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return itemPrice;
 	}
 }

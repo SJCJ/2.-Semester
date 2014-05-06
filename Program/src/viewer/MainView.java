@@ -20,22 +20,24 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.table.DefaultTableModel;
 
 import model.QueryMethods;
+import model.UpdateJTable;
 
-public class MainView
+public class MainView extends DefaultTableModel
 {
 	private final String[] cities = {"København", "Århus"};
 	public static void main(String[] args)
 	{
-		QueryMethods.startUp();
+		startUp();
 	}
 	private final JFrame frame = new JFrame("Test");
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public MainView(JTable table, final JTable table2)
+	public MainView(final JTable table, final JTable table2)
 	{
 		try
 		{
@@ -66,7 +68,7 @@ public class MainView
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scp = new JScrollPane(table);
-		
+		UpdateJTable.updateJTable(table);
 		panel_1.add(scp, BorderLayout.CENTER);
 		
 		table.addMouseListener(new MouseAdapter()
@@ -97,6 +99,17 @@ public class MainView
 		
 		JButton btnNewButton = new JButton("Tilføj produkt");
 		JButton btnNewButton_1 = new JButton("Slet fra historik");
+		btnNewButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int selectedRowIndex = table.getSelectedRow();
+				int selectedColumnIndex = 0;
+				Object selectedObject = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+				((DefaultTableModel) table.getModel()).removeRow(selectedRowIndex);
+			}
+		});
 		south.add(btnNewButton);
 		south.add(btnNewButton_1);
 		panel_1.add(south, BorderLayout.SOUTH);
@@ -164,5 +177,11 @@ public class MainView
 		panel_4.add(comboBox, BorderLayout.NORTH);
 		panel_4.add(panel_3);
 		frame.setVisible(true);
+	}
+	public static void startUp()
+	{
+		JTable table = new JTable();
+		JTable table2 = new JTable();
+		new MainView(table, table2);
 	}
 }
