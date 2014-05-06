@@ -3,6 +3,8 @@ package viewer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,7 +27,6 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 	
 	public static void main(String[] args)
 	{
-		
 		QueryMethods.startUpAdmin();
 	}
     
@@ -75,17 +76,17 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 		JLabel productLabel = new JLabel("Tilføj Produkt: ");
 		JLabel empyLabel = new JLabel("");
 		JLabel itemLabel = new JLabel("Produktets navn: ");
-		JTextField itemField = new JTextField(10);
+		final JTextField itemField = new JTextField(10);
 		JLabel descLabel = new JLabel("Produktets beskrivelse: ");
-		JTextField descField = new JTextField(10);
+		final JTextField descField = new JTextField(10);
 		JLabel relLabel = new JLabel("Produktets udgivelses dato: ");
-		JTextField relField = new JTextField(10);
+		final JTextField relField = new JTextField(10);
 		JLabel priceLabel = new JLabel("Produktets pris: ");
-		JTextField priceField = new JTextField(10);
+		final JTextField priceField = new JTextField(10);
 		JLabel cateLabel = new JLabel("Produktets kategori: ");
-		JComboBox cateBox = new JComboBox(categories);
+		final JComboBox cateBox = new JComboBox(categories);
 		JLabel offerLabel = new JLabel("Produktets tilbuds id: ");
-		JTextField offerField = new JTextField(10);
+		final JTextField offerField = new JTextField(10);
 		JLabel emptylabel = new JLabel("");
 		JButton addItem = new JButton("Tilføj Produktet");
 		
@@ -109,11 +110,11 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 		JLabel delLabel = new JLabel("Slet Produkt: ");
 		JLabel emptyLabel = new JLabel("");
 		JLabel itemLabel2 = new JLabel("Produktets navn: ");
-		JTextField itemField2 = new JTextField(10);
+		final JTextField itemField2 = new JTextField(10);
 		JLabel priceLabel2 = new JLabel("Produktets pris: ");
-		JTextField priceField2 = new JTextField(10);
+		final JTextField priceField2 = new JTextField(10);
 		JLabel cateLabel2 = new JLabel("Produktets kategori: ");
-		JComboBox cateBox2 = new JComboBox(categories);
+		final JComboBox cateBox2 = new JComboBox(categories);
 		JButton delItem = new JButton("Slet Produktet");
 		JLabel emptyLabel2 = new JLabel("");
 		
@@ -134,11 +135,31 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 		mainPanel.add(northEast, BorderLayout.EAST);
 		frame.add(mainPanel);
 		frame.pack();
-			    		
-		//Methods.okBtn(dateField, timeField, surgeryField, patientField, staffField);
 		
-		//Methods.updateTable();
-				
+		addItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String s = cateBox.getSelectedItem().toString();
+				int id = QueryMethods.getCategoryInt(s);
+				String id2 = String.valueOf(id);
+				QueryMethods.adminAddItem(itemField, descField, relField, priceField, id2, offerField);
+				QueryMethods.updateTableAdmin();
+			}
+		});
+		delItem.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String s = cateBox2.getSelectedItem().toString();
+				int id = QueryMethods.getCategoryInt(s);
+				String id2 = String.valueOf(id);
+				QueryMethods.adminDelItem(itemField2, priceField2, id2);
+				QueryMethods.updateTableAdmin();
+			}
+		});		
 		//Methods.deleteAppointment(dateField, surgeryField, staffField);
 			    				
 		//Methods.updateTable();

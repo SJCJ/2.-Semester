@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import net.proteanit.sql.DbUtils;
 import viewer.AdminGui;
@@ -121,7 +123,6 @@ public class QueryMethods
     	}
     	return offer;
     }
-	
 	public static void startUpAdmin()
 	{
 		sql = "select * from item";
@@ -138,7 +139,88 @@ public class QueryMethods
 			System.out.println("Yup"+e);
 		}
 	}
-	
+	public static void updateTableAdmin()
+    {
+    	String sql = "select * from item";
+    	try
+		{
+			con = DriverManager.getConnection(url, user, password);
+			stmt = con.createStatement();
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	public static int getCategoryInt(String string)
+    {
+    	sql = "select category_id from category where category = '" + string + "'";
+    	int id = -1;
+    	
+    	try
+    	{	
+    		con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				id = rs.getInt("category_id");
+			}
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("Uups" + e);
+    	}
+    	return id;
+    }
+	public static void adminAddItem(JTextField jtxt1, JTextField jtxt2,JTextField jtxt3,JTextField jtxt4,String string,JTextField jtxt5)
+	{
+		sql = "insert into item (item, description, release_date, price, category_id, offer)" + "values(?,?,?,?,?,?)";
+		String item = jtxt1.getText();
+		String descrip = jtxt2.getText();
+		String date = jtxt3.getText();
+		String price = jtxt4.getText();
+		String offer = jtxt5.getText();
+		try
+		{
+			con = DriverManager.getConnection(url, user, password);
+		    stmt = con.createStatement();
+		    PreparedStatement pstmt = con.prepareStatement(sql);
+		    pstmt.setString(1, item);
+		    pstmt.setString(2, descrip);
+		    pstmt.setString(3, date);
+		    pstmt.setString(4, price);
+		    pstmt.setString(5, string);
+		    pstmt.setString(6, offer);
+		    
+		    pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("uups" + e);
+		}
+	}
+	public static void adminDelItem(JTextField jtxt1, JTextField jtxt2, String string)
+	{
+		
+		String item = jtxt1.getText();
+    	String price = jtxt2.getText();
+    	sql = "delete from item where `item` = '" + item + "' and `price` = " + price +" and `category_id` = "+ string;
+    	try
+    	{
+    		con = DriverManager.getConnection(url, user, password);
+    		pstmt = con.prepareStatement(sql);
+    		pstmt.executeUpdate();
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println("theres an error here" +e);
+    	}
+	}
 	public static void startUp()
 	{
 		sql = "select item, description, price from item where item_id <= 6";
