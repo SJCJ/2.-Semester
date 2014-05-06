@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 
 import net.proteanit.sql.DbUtils;
+import viewer.AdminGui;
 import viewer.MainView;
 import controller.ItemCont;
 
@@ -19,7 +20,7 @@ public class QueryMethods
 	private static PreparedStatement pstmt;
 	private static Statement stmt;
     private static String sql;
-    private static String url = "jdbc:mysql://10.111.180.4:3306/mydb";
+    private static String url = "jdbc:mysql://10.111.180.2:3306/mydb";
     private static String user = "testUser";
     private static String password = "kea13";
     private static Connection con = null;
@@ -121,9 +122,21 @@ public class QueryMethods
     	return offer;
     }
 	
-	public static void addItem()
+	public static void startUpAdmin()
 	{
-		sql = "";
+		sql = "select * from item";
+		try
+		{
+			con = DriverManager.getConnection(url, user, password);
+		    stmt = con.createStatement();
+		    rs = stmt.executeQuery(sql);
+		    table = new JTable(ItemCont.buildTableModel(rs));
+		    new AdminGui(table);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Yup"+e);
+		}
 	}
 	
 	public static void startUp()
