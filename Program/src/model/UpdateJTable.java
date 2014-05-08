@@ -25,5 +25,5 @@ public class UpdateJTable
 	    }
 	    table.setModel(model);
 	  }
-
+	  
 }

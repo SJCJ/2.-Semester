@@ -31,7 +31,7 @@ import controller.UserHistory;
 public class MainView extends DefaultTableModel
 {
 	private final String[] cities = {"København", "Århus"};
-	private final static UserHistory uh = new UserHistory();
+	private static UserHistory uh;
 	
 	public static void main(String[] args)
 	{
@@ -42,8 +42,9 @@ public class MainView extends DefaultTableModel
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public MainView(final JTable table, final JTable table2)
+	public MainView(final JTable table, final JTable table2, final UserHistory uh)
 	{
+		
 		try
 		{
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
@@ -200,8 +201,9 @@ public class MainView extends DefaultTableModel
 	}
 	public static void startUp()
 	{
+		uh = Persistance.load();
 		JTable table = new JTable();
 		JTable table2 = new JTable();
-		new MainView(table, table2);
+		new MainView(table, table2, uh);
 	}
 }

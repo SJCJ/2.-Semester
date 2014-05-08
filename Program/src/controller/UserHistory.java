@@ -6,7 +6,7 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class UserHistory implements Serializable
 {
-	private final static ArrayList<String> itemIds = new ArrayList<String>();
+	private final ArrayList<String> itemIds = new ArrayList<String>();
 	
 	public ArrayList<String> getIds()
 	{
@@ -24,7 +24,7 @@ public class UserHistory implements Serializable
 		}
 		return null;
 	}
-	public static void addItem(String id)
+	public void addItem(String id)
 	{
 		itemIds.add(id);
 	}

@@ -15,7 +15,6 @@ import net.proteanit.sql.DbUtils;
 import viewer.AdminGui;
 import controller.ItemCont;
 
-
 public class QueryMethods 
 {
 	private static PreparedStatement pstmt;
@@ -29,7 +28,6 @@ public class QueryMethods
     private static ResultSet rs = null;
     //stmt.executeQuery(sqlString);
     private static JTable table;
-    private static JTable table2;
     
     public static void getOffers(String string, JTable table, int offer)
     {

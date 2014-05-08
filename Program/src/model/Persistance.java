@@ -44,10 +44,10 @@ public class Persistance implements Serializable
 	 		}
 	 	}
 	     
-	  //Loads the csv file to the "MemberControl" arraylist
+	  //Loads the csv file to the "UserHistory" arraylist
 	  public static UserHistory load()
 	  {
-	    UserHistory uh = new UserHistory();
+		  UserHistory uh = new UserHistory();
 	 	  try
 	 	  {
 	 	    FileInputStream fileIn = new FileInputStream(fileName);
