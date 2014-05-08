@@ -7,9 +7,9 @@ import controller.UserHistory;
 
 public class UpdateJTable
 {
-	  public static void updateJTable(JTable table)
+	  public static void updateJTable(JTable table, UserHistory uh)
 	  { 
-		UserHistory uh = new UserHistory();
+		
 		uh = Persistance.load();
 	    //JTable setup
 	    DefaultTableModel model = new DefaultTableModel(); 

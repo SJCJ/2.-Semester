@@ -3,9 +3,10 @@ package controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class UserHistory implements Serializable
 {
-	private final ArrayList<String> itemIds = new ArrayList<String>();
+	private final static ArrayList<String> itemIds = new ArrayList<String>();
 	
 	public ArrayList<String> getIds()
 	{
@@ -23,4 +24,9 @@ public class UserHistory implements Serializable
 		}
 		return null;
 	}
+	public static void addItem(String id)
+	{
+		itemIds.add(id);
+	}
+	
 }

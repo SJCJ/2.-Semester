@@ -17,22 +17,27 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableModel;
 
+import model.Persistance;
 import model.QueryMethods;
 import model.UpdateJTable;
+import controller.UserHistory;
 
 public class MainView extends DefaultTableModel
 {
 	private final String[] cities = {"København", "Århus"};
+	private final static UserHistory uh = new UserHistory();
+	
 	public static void main(String[] args)
 	{
 		startUp();
 	}
-	private final JFrame frame = new JFrame("Test");
+	private final JFrame frame = new JFrame("Brugernes del");
 	
 	/**
 	 * @wbp.parser.entryPoint
@@ -68,7 +73,7 @@ public class MainView extends DefaultTableModel
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scp = new JScrollPane(table);
-		UpdateJTable.updateJTable(table);
+		UpdateJTable.updateJTable(table, uh);
 		panel_1.add(scp, BorderLayout.CENTER);
 		
 		table.addMouseListener(new MouseAdapter()
@@ -97,9 +102,23 @@ public class MainView extends DefaultTableModel
 			
 		JPanel south = new JPanel(new FlowLayout());
 		
+		final JTextField idField = new JTextField(5);
+		
 		JButton btnNewButton = new JButton("Tilføj produkt");
+		btnNewButton.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String id = idField.getText();
+				uh.addItem(id);
+				Persistance.save(uh);
+				UpdateJTable.updateJTable(table, uh);
+			}
+		});
+		
 		JButton btnNewButton_1 = new JButton("Slet fra historik");
-		btnNewButton.addActionListener(new ActionListener()
+		btnNewButton_1.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
@@ -110,6 +129,7 @@ public class MainView extends DefaultTableModel
 				((DefaultTableModel) table.getModel()).removeRow(selectedRowIndex);
 			}
 		});
+		south.add(idField);
 		south.add(btnNewButton);
 		south.add(btnNewButton_1);
 		panel_1.add(south, BorderLayout.SOUTH);

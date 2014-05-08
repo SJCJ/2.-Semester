@@ -21,7 +21,7 @@ public class QueryMethods
 	private static PreparedStatement pstmt;
 	private static Statement stmt;
     private static String sql;
-    private static String url = "jdbc:mysql://10.111.180.2:3306/mydb";
+    private static String url = "jdbc:mysql://10.111.180.4:3306/mydb";
     private static String user = "testUser";
     private static String password = "kea13";
     private static Connection con = null;
@@ -245,7 +245,7 @@ public class QueryMethods
 	public static String getItemDesc(String id)
 	{
 		String itemDesc ="";
-		sql ="select item from item where item_id =" + id;
+		sql ="select description from item where item_id =" + id;
 		try
 		{
 			con = DriverManager.getConnection(url, user, password);
@@ -266,7 +266,7 @@ public class QueryMethods
 	public static String getItemPrice(String id)
 	{
 		String itemPrice ="";
-		sql ="select item from item where item_id =" + id;
+		sql ="select price from item where item_id =" + id;
 		try
 		{
 			con = DriverManager.getConnection(url, user, password);
