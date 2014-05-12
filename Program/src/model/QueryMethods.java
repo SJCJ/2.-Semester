@@ -20,7 +20,7 @@ public class QueryMethods
 	private static PreparedStatement pstmt;
 	private static Statement stmt;
     private static String sql;
-    private static String url = "jdbc:mysql://10.111.180.4:3306/mydb";
+    private static String url = "jdbc:mysql://10.111.180.5:3306/mydb";
     private static String user = "testUser";
     private static String password = "kea13";
     private static Connection con = null;
@@ -67,15 +67,40 @@ public class QueryMethods
     	
     	return id;
     }
-    public static void getStores(String string, int i, JLabel label1, JLabel label2, JLabel label3)
+    public static int getCategoryId(String string)
+    {
+    	int id = -1;
+    	sql = "select category_id from item where item ='" + string + "'";
+    	try
+    	{
+    		con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				id = rs.getInt("category_id");
+			}
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println(e);
+    	}
+    	
+    	return id;
+    }
+    
+    public static void getStoreByCity(int i, int i2, JLabel label1, JLabel label2, JLabel label3)
     {
     	String storeName = "";
     	String openingHours1 = "";
     	String openingHours2 = "";
-    	String address = "";
+    	String street = "";
     	String openingHours = "";
+    	String postalCode = "";
+    	String district = "";
+    	String address = "";
     	
-    	sql = "select store, opening_hours_1, opening_hours_2, address from store, address where item_id = " + i + " and address.address_id = store.Address_address_id;";
+    	sql = "select store, opening_hours_1, opening_hours_2, address, postal_code, district from store, address where city_id = " + i + " and Category_category_id = " + i2 + " and address.address_id = store.Address_address_id";
     	try
     	{
     		con = DriverManager.getConnection(url, user, password);
@@ -86,9 +111,12 @@ public class QueryMethods
     		storeName = rs.getString("store");
     		openingHours1 = rs.getString("opening_hours_1");
     		openingHours2 = rs.getString("opening_hours_2");
-    		address = rs.getString("address");
+    		street = rs.getString("address");
+    		postalCode = rs.getString("postal_code");
+    		district = rs.getString("district");
     		
     		openingHours = openingHours1 + "-" + openingHours2;
+    		address = "<html>" + street + "<br>" + postalCode + " " + district + "</html>";
     		}
     		label1.setText(storeName);
     		label2.setText(openingHours);
@@ -98,6 +126,27 @@ public class QueryMethods
     	{
     		System.out.println(e);
     	}
+    }
+    public static int getCityId(String string)
+    {
+    	int id = -1;
+    	sql = "select city_id from city where city ='" + string + "'";
+    	try
+    	{
+    		con = DriverManager.getConnection(url, user, password);
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				id = rs.getInt("city_id");
+			}
+    	}
+    	catch(Exception e)
+    	{
+    		System.out.println(e);
+    	}
+    	
+    	return id;
     }
     public static int getOfferInt(String string)
     {

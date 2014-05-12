@@ -29,4 +29,9 @@ public class UserHistory implements Serializable
 		itemIds.add(id);
 	}
 	
+	public void deleteItem(String id)
+	{
+		itemIds.remove(id);
+	}
+	
 }

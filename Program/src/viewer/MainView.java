@@ -30,7 +30,7 @@ import controller.UserHistory;
 
 public class MainView extends DefaultTableModel
 {
-	private final String[] cities = {"København", "Århus"};
+	private final String[] cities = {"Vælg by", "København", "Århus"};
 	private static UserHistory uh;
 	
 	public static void main(String[] args)
@@ -38,10 +38,7 @@ public class MainView extends DefaultTableModel
 		startUp();
 	}
 	private final JFrame frame = new JFrame("Brugernes del");
-	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+
 	public MainView(final JTable table, final JTable table2, final UserHistory uh)
 	{
 		
@@ -126,8 +123,12 @@ public class MainView extends DefaultTableModel
 			{
 				int selectedRowIndex = table.getSelectedRow();
 				int selectedColumnIndex = 0;
-				Object selectedObject = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
-				((DefaultTableModel) table.getModel()).removeRow(selectedRowIndex);
+				String selectedObject = (String) table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+				int i = QueryMethods.getItemId(selectedObject);
+				String id = String.valueOf(i);
+				uh.deleteItem(id);
+				Persistance.save(uh);
+				UpdateJTable.updateJTable(table, uh);
 			}
 		});
 		south.add(idField);
@@ -166,19 +167,19 @@ public class MainView extends DefaultTableModel
 		JLabel lblButikkensNavn = new JLabel("Butikkens navn: ");
 		panel_3.add(lblButikkensNavn);
 		
-		final JLabel lblNewLabel = new JLabel("navn fra database");
+		final JLabel lblNewLabel = new JLabel("");
 		panel_3.add(lblNewLabel);
 		
 		JLabel lblbningstider = new JLabel("\u00C5bningstider: ");
 		panel_3.add(lblbningstider);
 		
-		final JLabel lblbningstiderFraDatabase = new JLabel("\u00E5bningstider fra database");
+		final JLabel lblbningstiderFraDatabase = new JLabel("");
 		panel_3.add(lblbningstiderFraDatabase);
 		
 		JLabel lblAdresse = new JLabel("Adresse: ");
 		panel_3.add(lblAdresse);
 		
-		final JLabel lblAdresseFraDatabase = new JLabel("Adresse fra database");
+		final JLabel lblAdresseFraDatabase = new JLabel("");
 		panel_3.add(lblAdresseFraDatabase);
 		
 		btnKb.addActionListener(new ActionListener()
@@ -186,17 +187,27 @@ public class MainView extends DefaultTableModel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				int selectedRowIndex = table2.getSelectedRow();
-				int selectedColumnIndex = 0;
-				String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
-				int i = QueryMethods.getItemId(selectedObject);
-				QueryMethods.getStores(selectedObject, i, lblNewLabel, lblbningstiderFraDatabase, lblAdresseFraDatabase);
 				tabbedPane.setSelectedIndex(2);
 			}
 		});
-		JComboBox comboBox = new JComboBox(cities);
+		final JComboBox comboBox = new JComboBox(cities);
+		comboBox.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String selectedCity = (String) comboBox.getSelectedItem();
+				int cityId = QueryMethods.getCityId(selectedCity);
+				int selectedRowIndex = table2.getSelectedRow();
+				int selectedColumnIndex = 0;
+				String selectedObject = (String) table2.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
+				int itemId = QueryMethods.getCategoryId(selectedObject);
+				QueryMethods.getStoreByCity(cityId, itemId, lblNewLabel, lblbningstiderFraDatabase, lblAdresseFraDatabase);
+			}
+		});
 		panel_4.add(comboBox, BorderLayout.NORTH);
 		panel_4.add(panel_3);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	public static void startUp()
