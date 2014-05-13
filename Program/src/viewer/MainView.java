@@ -33,16 +33,16 @@ public class MainView extends DefaultTableModel
 {
 	private final String[] cities = {"Vælg by", "København", "Århus"};
 	private static UserHistory uh;
+	private final JFrame frame = new JFrame("Brugernes del");
 	
 	public static void main(String[] args)
 	{
+		//debug();
 		startUp();
 	}
-	private final JFrame frame = new JFrame("Brugernes del");
 
 	public MainView(final JTable table, final JTable table2, final UserHistory uh)
 	{
-		
 		try
 		{
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
@@ -56,7 +56,7 @@ public class MainView extends DefaultTableModel
 		}
 		catch (Exception e)
 		{
-		   
+		   System.out.println(e);
 		}
 		
 		frame.setSize(400,600);
@@ -217,5 +217,10 @@ public class MainView extends DefaultTableModel
 		JTable table = new JTable();
 		JTable table2 = new JTable();
 		new MainView(table, table2, uh);
+	}
+	public static void debug()
+	{
+		UserHistory uh = new UserHistory();
+		Persistance.save(uh);
 	}
 }

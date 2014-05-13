@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -252,6 +253,7 @@ public class QueryMethods
 		}
 		catch(Exception e)
 		{
+			JOptionPane.showMessageDialog(null, "Invalid input(s)", "Warning", JOptionPane.WARNING_MESSAGE);
 			System.out.println("uups" + e);
 		}
 	}
@@ -270,6 +272,7 @@ public class QueryMethods
     	}
     	catch(Exception e)
     	{
+    		JOptionPane.showMessageDialog(null, "Invalid input(s)", "Warning", JOptionPane.WARNING_MESSAGE);
     		System.out.println("theres an error here" +e);
     	}
 	}
