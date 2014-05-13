@@ -37,6 +37,7 @@ public class MainView extends DefaultTableModel
 	
 	public static void main(String[] args)
 	{
+		//Jonas er mit navn
 		//debug();
 		startUp();
 	}
