@@ -23,7 +23,7 @@ import model.QueryMethods;
 public class AdminGui
 {
 private static JFrame frame;
-private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "Hus & Have", "Børn & Baby", "Sport & Fritid", "Hvidevarer", "Spiritus", "Fødevarer"};
+private static String[] categories = {"Elektronik", "Textil", "Køkken", "Dyr", "Hus & Have", "Børn & Baby", "Sport & Fritid", "Hvidevarer", "Spiritus", "Fødevarer"};
 	
 	public static void main(String[] args)
 	{
@@ -56,9 +56,6 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
 		JPanel west = new JPanel();
-		final JDesktopPane dtp = new JDesktopPane();
-		dtp.setBackground(Color.LIGHT_GRAY);
-		
 		
 		JPanel panel = new JPanel();
 		
@@ -80,7 +77,7 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 		JLabel descLabel = new JLabel("Produktets beskrivelse: ");
 		final JTextField descField = new JTextField(10);
 		JLabel relLabel = new JLabel("Produktets udgivelses dato: ");
-		final JTextField relField = new JTextField(10);
+		final JTextField relField = new JTextField("YYYY-MM-DD", 10);
 		JLabel priceLabel = new JLabel("Produktets pris: ");
 		final JTextField priceField = new JTextField(10);
 		JLabel cateLabel = new JLabel("Produktets kategori: ");
@@ -141,9 +138,11 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				//Checks status of JComboBox and asks the database for the category_id
 				String s = cateBox.getSelectedItem().toString();
 				int id = QueryMethods.getCategoryInt(s);
 				String id2 = String.valueOf(id);
+				//Adds item to database
 				QueryMethods.adminAddItem(itemField, descField, relField, priceField, id2, offerField);
 				QueryMethods.updateTableAdmin();
 			}
@@ -153,16 +152,14 @@ private static String[] categories = {"Elektronik", "Textil", "Køkken", "Bil", "
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				//Checks status of JComboBox and asks the database for the category_id
 				String s = cateBox2.getSelectedItem().toString();
 				int id = QueryMethods.getCategoryInt(s);
 				String id2 = String.valueOf(id);
+				//Deletes item in database
 				QueryMethods.adminDelItem(itemField2, priceField2, id2);
 				QueryMethods.updateTableAdmin();
 			}
 		});		
-		//Methods.deleteAppointment(dateField, surgeryField, staffField);
-			    				
-		//Methods.updateTable();
-		
 	}
 }

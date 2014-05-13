@@ -20,15 +20,14 @@ public class QueryMethods
 	private static PreparedStatement pstmt;
 	private static Statement stmt;
     private static String sql;
-    private static String url = "jdbc:mysql://10.111.180.5:3306/mydb";
+    private static String url = "jdbc:mysql://10.111.180.4:3306/mydb";
     private static String user = "testUser";
     private static String password = "kea13";
     private static Connection con = null;
-    //DriverManager.getConnection(url, user, password);
     private static ResultSet rs = null;
-    //stmt.executeQuery(sqlString);
     private static JTable table;
     
+    //Get offers in relation to the selected item in GUI
     public static void getOffers(String string, JTable table, int offer)
     {
     	
@@ -42,10 +41,10 @@ public class QueryMethods
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
+    //Get item_id for the given item
     public static int getItemId(String string)
     {
     	int id = -1;
@@ -67,6 +66,7 @@ public class QueryMethods
     	
     	return id;
     }
+    //Get category_id for the given item
     public static int getCategoryId(String string)
     {
     	int id = -1;
@@ -88,7 +88,7 @@ public class QueryMethods
     	
     	return id;
     }
-    
+    //Get the right store for the right item in the right city
     public static void getStoreByCity(int i, int i2, JLabel label1, JLabel label2, JLabel label3)
     {
     	String storeName = "";
@@ -127,6 +127,7 @@ public class QueryMethods
     		System.out.println(e);
     	}
     }
+    //Get city_id for the given "city name"
     public static int getCityId(String string)
     {
     	int id = -1;
@@ -148,6 +149,7 @@ public class QueryMethods
     	
     	return id;
     }
+    //Get the offer_id for the given item
     public static int getOfferInt(String string)
     {
     	String sql1 = "select offer from item where item = '" + string + "'";
@@ -169,7 +171,8 @@ public class QueryMethods
     	}
     	return offer;
     }
-	public static void startUpAdmin()
+	//Startup method for the AdminGUI
+    public static void startUpAdmin()
 	{
 		sql = "select * from item";
 		try
@@ -185,7 +188,8 @@ public class QueryMethods
 			System.out.println("Yup"+e);
 		}
 	}
-	public static void updateTableAdmin()
+	//Updating the JTable in the AdminGUI
+    public static void updateTableAdmin()
     {
     	String sql = "select * from item";
     	try
@@ -198,11 +202,11 @@ public class QueryMethods
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
-	public static int getCategoryInt(String string)
+	//Get category_id for the given "category name"
+    public static int getCategoryInt(String string)
     {
     	sql = "select category_id from category where category = '" + string + "'";
     	int id = -1;
@@ -223,7 +227,8 @@ public class QueryMethods
     	}
     	return id;
     }
-	public static void adminAddItem(JTextField jtxt1, JTextField jtxt2,JTextField jtxt3,JTextField jtxt4,String string,JTextField jtxt5)
+	//Adds an item to the database
+    public static void adminAddItem(JTextField jtxt1, JTextField jtxt2,JTextField jtxt3,JTextField jtxt4,String string,JTextField jtxt5)
 	{
 		sql = "insert into item (item, description, release_date, price, category_id, offer)" + "values(?,?,?,?,?,?)";
 		String item = jtxt1.getText();
@@ -250,7 +255,8 @@ public class QueryMethods
 			System.out.println("uups" + e);
 		}
 	}
-	public static void adminDelItem(JTextField jtxt1, JTextField jtxt2, String string)
+	//Deletes an item from the database
+    public static void adminDelItem(JTextField jtxt1, JTextField jtxt2, String string)
 	{
 		
 		String item = jtxt1.getText();
@@ -267,7 +273,8 @@ public class QueryMethods
     		System.out.println("theres an error here" +e);
     	}
 	}
-	public static String getItemName(String id)
+	//Get "item name" for the given item_id
+    public static String getItemName(String id)
 	{
 		String itemName ="";
 		sql ="select item from item where item_id =" + id;
@@ -289,7 +296,8 @@ public class QueryMethods
 		return itemName;
 		
 	}
-	public static String getItemDesc(String id)
+	//Get description of the given item_id
+    public static String getItemDesc(String id)
 	{
 		String itemDesc ="";
 		sql ="select description from item where item_id =" + id;
@@ -310,7 +318,8 @@ public class QueryMethods
 		}
 		return itemDesc;
 	}
-	public static String getItemPrice(String id)
+	//Get the price of the given item_id
+    public static String getItemPrice(String id)
 	{
 		String itemPrice ="";
 		sql ="select price from item where item_id =" + id;

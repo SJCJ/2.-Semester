@@ -14,31 +14,32 @@ public class Persistance implements Serializable
 	{
 	  private static String fileName = "historik.csv";
 	   
-	  //public static is a class method. Saves the "MemberControl" arraylist to a csv file
+	  //public static is a class method. Saves the "UserHistory" arraylist to a csv file
 	  public static void save(UserHistory uh)
-		{
-		 	ObjectOutputStream out = null;
+	  {
+		  	ObjectOutputStream out = null;
 		 	FileOutputStream fileOut = null;	 	
 		 	File yourFile = new File(fileName);
 		 	try 
-	    {
+		 	{
 		 		yourFile.createNewFile(); //create file if it doesn't exist
-	      fileOut = new FileOutputStream(fileName, false);
+		 		fileOut = new FileOutputStream(fileName, false);
 	 			out = new ObjectOutputStream(fileOut);
 	 			out.writeObject(uh); //write to file
 	 		} 
-	    catch (IOException e) {
+		 	catch (IOException e) 
+		 	{
 	 			e.printStackTrace();
 	 		}
 	 		finally 
-	    {
+	 		{
 	 			try 
-	      {
+	 			{
 	 				out.close();
 	 				fileOut.close();
-	 	    } 
-	      catch (IOException e) 
-	      {
+	 			} 
+	 			catch (IOException e) 
+	 			{
 	 				e.printStackTrace();
 	 			}
 	 		}
@@ -50,25 +51,25 @@ public class Persistance implements Serializable
 		  UserHistory uh = new UserHistory();
 	 	  try
 	 	  {
-	 	    FileInputStream fileIn = new FileInputStream(fileName);
-	 	    ObjectInputStream in = new ObjectInputStream(fileIn);
-	 	    try 
-	      {
-	     		uh = (UserHistory)in.readObject(); //cast object read from file to MemberControl
-	 	    }
-	     	catch(Exception e)
-	    	{ 
-	        e.printStackTrace();
-	     	} 
-	 	    in.close();
-	 	    fileIn.close();
-	 	    }
-	 	  catch(IOException i) 	    
-	    {
-		    i.printStackTrace();
-		    //something went wrong :-(
-	 	    return null;
-	 	  }
-	 		return uh;
-	 	}
+	 		  FileInputStream fileIn = new FileInputStream(fileName);
+	 		  ObjectInputStream in = new ObjectInputStream(fileIn);
+	 		  try 
+	 		  {
+	 			  uh = (UserHistory)in.readObject(); //cast object read from file to UserHistory
+	 		  }
+	 		  catch(Exception e)
+	 		  { 
+	 			  e.printStackTrace();
+	 		  } 
+	 		      in.close();
+	 		      fileIn.close();
+	 	      }
+	 	  	  catch(IOException i) 	    
+	 	  	  {
+	 	  		  i.printStackTrace();
+	 	  		  //something went wrong :-(
+	 	  		  return null;
+	 	  	  }
+	 	  return uh;
+	  }
 }

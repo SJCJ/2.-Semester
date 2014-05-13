@@ -28,6 +28,7 @@ import model.QueryMethods;
 import model.UpdateJTable;
 import controller.UserHistory;
 
+@SuppressWarnings("serial")
 public class MainView extends DefaultTableModel
 {
 	private final String[] cities = {"Vælg by", "København", "Århus"};
